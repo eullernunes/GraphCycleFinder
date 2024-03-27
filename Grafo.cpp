@@ -18,36 +18,32 @@ void Grafo::addAresta(int v, int w)
 
 void Grafo::dfs(int v, vector<bool> &visitado, vector<int> &caminho, int antecessor)
 {
-	visitado[v] = true;
-	caminho.push_back(v);
+    visitado[v] = true;
+    caminho.push_back(v);
+    
+    for (int u : adj[v])
+    {
+        if (!visitado[u])
+        {
+            dfs(u, visitado, caminho, v);
+        }
+        else if (u != antecessor && find(caminho.begin(), caminho.end(), u) != caminho.end())
+        {
+            // Encontrou um ciclo
+            auto start = find(caminho.begin(), caminho.end(), u);
+            vector<int> ciclo(start, caminho.end());
 
-	for (int u : adj[v])
-	{
+            if (ciclo.size() > 2)
+            {
+                sort(ciclo.begin(), ciclo.end());
+                ciclos.insert(ciclo);
+            }
+        }
+    }
 
-		if (!visitado[u])
-		{
-			dfs(u, visitado, caminho, v);
-		}
-		else
-		{
-
-			if (u != antecessor && find(caminho.begin(), caminho.end(), u) != caminho.end())
-			{
-				auto start = find(caminho.begin(), caminho.end(), u); // Outra comparação já contada acima
-				vector<int> ciclo(start, caminho.end());
-
-				if (ciclo.size() > 2)
-				{
-					sort(ciclo.begin(), ciclo.end());
-					ciclos.insert(ciclo);
-				}
-			}
-		}
-	}
-
-	caminho.pop_back();
-	visitado[v] = false;
+    caminho.pop_back();
 }
+
 
 bool Grafo::ehCicloValido(const vector<int> &ciclo)
 {
@@ -72,6 +68,7 @@ void Grafo::encontrarCiclosDfs()
 
 	for (int i = 0; i < V; i++)
 	{
+	//cout << "oi teste" << endl;
 		if (!visitado[i])
 		{
 			dfs(i, visitado, caminho, -1);
@@ -99,18 +96,16 @@ void Grafo::encontrarCiclosPorPermutacao()
 	set<vector<int>> ciclosPermutacao;
 	vector<int> vertices(V);
 	iota(vertices.begin(), vertices.end(), 0);
-
 	// gera permutações e verifica ciclos
 	do
 	{
 		for (int len = 3; len <= V; ++len)
 		{
-
 			vector<int> ciclo(vertices.begin(), vertices.begin() + len);
 			ciclo.push_back(ciclo.front());
 			if (ehCicloValido(ciclo))
 			{
-
+				cout << V << " ";
 				ciclo.pop_back();
 				sort(ciclo.begin(), ciclo.end());
 				ciclo.push_back(ciclo.front());
