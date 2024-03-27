@@ -1,13 +1,45 @@
 #include "Grafo.h"
 #include<iostream>
 #include<chrono>
-
+#include <string>
+#include <fstream>
+#include <stdexcept>
+#include <sstream>
 
 
 using namespace std;
 using namespace std::chrono;
 
 
+Grafo* processarArquivoCSV(const string& nomeArquivo){
+	Grafo* grafo = nullptr;
+	bool leuCabecalho = false;
+
+	ifstream file(nomeArquivo);
+	string linha;
+
+	if(!file.is_open()){
+		throw runtime_error("Não foi possível abrir o arquivo: " + nomeArquivo);
+	}
+	while(getline(file,linha)){
+		if(!leuCabecalho){
+			if(linha.find("# Vertices:") == 0 && !grafo){
+				int numVertices = std::stoi(linha.substr(linha.find(":") + 1 ));
+				grafo = new Grafo(numVertices);
+			}else if(linha.find("# Arestas:") == 0){
+				leuCabecalho = true;
+			}
+		}else{
+			istringstream iss(linha);
+			string item;
+			vector<std::string> dados;
+
+			while(getline(iss, item, ',' )){
+				dados.push_back(item);
+			}
+		}
+	}
+}
 
 int main()
 {

@@ -51,7 +51,7 @@ void Grafo::dfs(int v, vector<bool> &visitado, vector<int> &caminho, int anteces
 
 bool Grafo::ehCicloValido(const vector<int> &ciclo)
 {
-	if (ciclo.front() != ciclo.back() || ciclo.size() < 4)
+	if (ciclo.front() != ciclo.back() || ciclo.size() < 3)
 		return false; // verifica se é um ciclo e tem tamanho mínimo
 
 	for (size_t i = 0; i < ciclo.size() - 1; ++i)
@@ -64,8 +64,6 @@ bool Grafo::ehCicloValido(const vector<int> &ciclo)
 	}
 	return true;
 }
-
-
 
 void Grafo::encontrarCiclosDfs()
 {
@@ -128,3 +126,4 @@ void Grafo::encontrarCiclosPorPermutacao()
 		cout << endl;
 	}
 }
+
