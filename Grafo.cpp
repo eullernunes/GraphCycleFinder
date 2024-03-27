@@ -83,7 +83,6 @@ void Grafo::encontrarCiclosDfs()
 
 	for (const auto &ciclo : ciclos)
 	{
-		cout << "oi" << endl;
 		vector<int> cicloImprimivel = ciclo;
 		cicloImprimivel.push_back(ciclo.front());
 		for (int v : cicloImprimivel)
@@ -91,7 +90,6 @@ void Grafo::encontrarCiclosDfs()
 			cout << v << " ";
 		}
 		cout << endl;
-		cout << "oi2" << endl;
 	}
 
 }

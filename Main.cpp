@@ -5,6 +5,8 @@
 #include <fstream>
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
+
 
 using namespace std;
 using namespace std::chrono;
@@ -26,15 +28,12 @@ void processaArquivoCSV(const std::string &arquivo)
 	// Lê as arestas
 	while (getline(file, line))
 	{
+		replace(line.begin(), line.end(), ',',  ' ');
 		istringstream iss(line);
 		int v, w;
 		if (iss >> v >> w)
 		{
-			cout << "oi" << endl;
-			cout << v << endl;
-			cout << w << endl;
 			grafo.addAresta(v, w);
-			cout << v << endl;
 		}
 	}
 
