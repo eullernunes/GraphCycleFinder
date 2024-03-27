@@ -23,7 +23,7 @@ Grafo* processarArquivoCSV(const string& nomeArquivo){
 	}
 	while(getline(file,linha)){
 		if(!leuCabecalho){
-			if(linha.find("# Vertices:") == 0 && !grafo){
+			if(linha.find("# Verticees:") == 0 && !grafo){
 				int numVertices = std::stoi(linha.substr(linha.find(":") + 1 ));
 				grafo = new Grafo(numVertices);
 			}else if(linha.find("# Arestas:") == 0){
