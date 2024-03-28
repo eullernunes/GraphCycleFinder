@@ -11,7 +11,7 @@ class Grafo
 {
     private:
         int V;					 // número de vértices
-	    vector<vector<bool>> adjMatriz; // lista de adjacência
+	    vector<vector<int>> adj; // lista de adjacência
 	    set<vector<int>> ciclos; // ciclos únicos
 
         void dfs(int v, vector<bool> &visitado, vector<int> &caminho, int antecessor);
