@@ -1,5 +1,5 @@
 #include "Grafo.h"
-
+#include <unordered_set>
 #include <algorithm>
 #include <numeric>
 #include <iostream>
@@ -21,17 +21,29 @@ void Grafo::dfs(int v, vector<bool> &visitado, vector<int> &caminho, int anteces
     visitado[v] = true;
     caminho.push_back(v);
     
+    // Verificar a presença de vértices no caminho
+    unordered_set<int> vertices_no_caminho(caminho.begin(), caminho.end());
+
     for (int u : adj[v])
     {
         if (!visitado[u])
         {
             dfs(u, visitado, caminho, v);
         }
-        else if (u != antecessor && find(caminho.begin(), caminho.end(), u) != caminho.end())
+        else if (u != antecessor && vertices_no_caminho.find(u) != vertices_no_caminho.end())
         {
             // Encontrou um ciclo
-            auto start = find(caminho.begin(), caminho.end(), u);
-            vector<int> ciclo(start, caminho.end());
+            vector<int> ciclo;
+
+            // Adicionar vértices do ciclo ao vetor
+            int index = caminho.size() - 1;
+            while (caminho[index] != u)
+            {
+                ciclo.push_back(caminho[index]);
+                index--;
+            }
+            ciclo.push_back(u);
+            ciclo.push_back(v);
 
             if (ciclo.size() > 2)
             {
@@ -42,7 +54,10 @@ void Grafo::dfs(int v, vector<bool> &visitado, vector<int> &caminho, int anteces
     }
 
     caminho.pop_back();
+    visitado[v] = false;
 }
+
+
 
 
 bool Grafo::ehCicloValido(const vector<int> &ciclo)

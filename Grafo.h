@@ -10,11 +10,11 @@ using namespace std;
 class Grafo
 {
     private:
-        int V;					 // número de vértices
-	    vector<vector<int>> adj; // lista de adjacência
-	    set<vector<int>> ciclos; // ciclos únicos
+       int V; 				 // número de vértices
+	   std::vector<std::vector<int>> adj; // lista de adjacência
+	   std::set<std::vector<int>> ciclos; // ciclos únicos
 
-        void dfs(int v, vector<bool> &visitado, vector<int> &caminho, int antecessor);
+    void dfs(int v, std::vector<bool> &visitado, std::vector<int> &caminho, int antecessor);
         bool ehCicloValido(const vector<int> &ciclo);
 
     public:
