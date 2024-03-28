@@ -56,7 +56,7 @@ void processaArquivoCSV(const std::string &arquivo)
 int main()
 {
 
-	processaArquivoCSV("grafo1_4.csv");
+	processaArquivoCSV("grafo2_4.csv");
 
 	/*
 		Grafo g(5); // Criando um grafo com 5 vértices
