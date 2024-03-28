@@ -1,5 +1,5 @@
 #include "Grafo.h"
-#include <unordered_set>
+
 #include <algorithm>
 #include <numeric>
 #include <iostream>
@@ -18,47 +18,36 @@ void Grafo::addAresta(int v, int w)
 
 void Grafo::dfs(int v, vector<bool> &visitado, vector<int> &caminho, int antecessor)
 {
-    visitado[v] = true;
-    caminho.push_back(v);
-    
-    // Verificar a presença de vértices no caminho
-    unordered_set<int> vertices_no_caminho(caminho.begin(), caminho.end());
+	visitado[v] = true;
+	caminho.push_back(v);
 
-    for (int u : adj[v])
-    {
-        if (!visitado[u])
-        {
-            dfs(u, visitado, caminho, v);
-        }
-        else if (u != antecessor && vertices_no_caminho.find(u) != vertices_no_caminho.end())
-        {
-            // Encontrou um ciclo
-            vector<int> ciclo;
+	for (int u : adj[v])
+	{
 
-            // Adicionar vértices do ciclo ao vetor
-            int index = caminho.size() - 1;
-            while (caminho[index] != u)
-            {
-                ciclo.push_back(caminho[index]);
-                index--;
-            }
-            ciclo.push_back(u);
-            ciclo.push_back(v);
+		if (!visitado[u])
+		{
+			dfs(u, visitado, caminho, v);
+		}
+		else
+		{
 
-            if (ciclo.size() > 2)
-            {
-                sort(ciclo.begin(), ciclo.end());
-                ciclos.insert(ciclo);
-            }
-        }
-    }
+			if (u != antecessor && find(caminho.begin(), caminho.end(), u) != caminho.end())
+			{
+				auto start = find(caminho.begin(), caminho.end(), u); // Outra comparação já contada acima
+				vector<int> ciclo(start, caminho.end());
 
-    caminho.pop_back();
-    visitado[v] = false;
+				if (ciclo.size() > 2)
+				{
+					sort(ciclo.begin(), ciclo.end());
+					ciclos.insert(ciclo);
+				}
+			}
+		}
+	}
+
+	caminho.pop_back();
+	visitado[v] = false;
 }
-
-
-
 
 bool Grafo::ehCicloValido(const vector<int> &ciclo)
 {
@@ -83,7 +72,6 @@ void Grafo::encontrarCiclosDfs()
 
 	for (int i = 0; i < V; i++)
 	{
-	//cout << "oi teste" << endl;
 		if (!visitado[i])
 		{
 			dfs(i, visitado, caminho, -1);
@@ -111,16 +99,18 @@ void Grafo::encontrarCiclosPorPermutacao()
 	set<vector<int>> ciclosPermutacao;
 	vector<int> vertices(V);
 	iota(vertices.begin(), vertices.end(), 0);
+
 	// gera permutações e verifica ciclos
 	do
 	{
 		for (int len = 3; len <= V; ++len)
 		{
+
 			vector<int> ciclo(vertices.begin(), vertices.begin() + len);
 			ciclo.push_back(ciclo.front());
 			if (ehCicloValido(ciclo))
 			{
-				//cout << V << " ";
+
 				ciclo.pop_back();
 				sort(ciclo.begin(), ciclo.end());
 				ciclo.push_back(ciclo.front());
