@@ -40,8 +40,8 @@ void Grafo::dfs(int v, vector<bool> &visitado, vector<int> &caminho, int anteces
             }
         }
     }
-
     caminho.pop_back();
+	visitado[v] = false;
 }
 
 
