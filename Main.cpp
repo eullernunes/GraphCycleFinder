@@ -44,7 +44,6 @@ void processaArquivoCSV(const std::string &arquivo)
     auto duracaoDFS = duration_cast<microseconds>(fimDFS - inicioDfs);
     cout << "Tempo de execução DFS: " << duracaoDFS.count() << " microssegundos" << endl;
 
-    // Medindo o tempo de execução da Permutação
     auto inicioPermutacao = high_resolution_clock::now();
     grafo.encontrarCiclosPorPermutacao();
     auto fimPermutacao = high_resolution_clock::now();
